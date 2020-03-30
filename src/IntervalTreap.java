@@ -5,6 +5,11 @@ public class IntervalTreap {
     private int size;
     private int height;
 
+    public IntervalTreap() {
+        this.size = 0;
+        this.height = 0;
+    }
+
     public Node getRoot() {
         return root;
     }
