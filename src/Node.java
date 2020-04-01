@@ -33,4 +33,28 @@ public class Node {
     public int getPriority() {
         return priority;
     }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    public void setInterv(Interval interv) {
+        this.interv = interv;
+    }
+
+    public void setGetIMax(int getIMax) {
+        this.getIMax = getIMax;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 }

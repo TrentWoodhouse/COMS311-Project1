@@ -22,28 +22,39 @@ public class IntervalTreap {
         return height;
     }
 
-    //TODO
-    void intervalInsert(Node z) {
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void intervalInsert(Node z) {
         return;
     }
 
     //TODO
-    void intervalDelete(Node z) {
+    public void intervalDelete(Node z) {
         return;
     }
 
     //TODO
-    Node intervalSearch(Interval i) {
+    public Node intervalSearch(Interval i) {
         return null;
     }
 
     //TODO (Extra credit)
-    Node intervalSearchExactly(Interval i) {
+    public Node intervalSearchExactly(Interval i) {
         return null;
     }
 
     //TODO (Extra credit)
-    List<Interval> overlappingIntervals(Interval i) {
+    public List<Interval> overlappingIntervals(Interval i) {
         return null;
     }
 }

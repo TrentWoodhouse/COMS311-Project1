@@ -14,4 +14,12 @@ public class Interval {
     public int getHigh() {
         return high;
     }
+
+    public void setLow(int low) {
+        this.low = low;
+    }
+
+    public void setHigh(int high) {
+        this.high = high;
+    }
 }
