@@ -26,7 +26,7 @@ public class Node {
         return interv;
     }
 
-    public int getGetIMax() {
+    public int getIMax() {
         return getIMax;
     }
 
