@@ -57,7 +57,7 @@ public class IntervalTreap {
     //TODO
     public Node intervalSearch(Interval i){
         Node x = root;
-        while (x != null) { //need to figure out the "i does not overlap x.interval" condition
+        while (x != null && !Overlaps(x, i)) {
             if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
                 x = x.getLeft();
             }
@@ -67,6 +67,13 @@ public class IntervalTreap {
         }
         return x;
 
+    }
+
+    private boolean Overlaps(Node x, Interval i) {
+        if (i.getLow() <= x.getInterv().getHigh() && x.getInterv().getLow() <= i.getHigh()) {
+            return true;
+        }
+        return false;
     }
 
     //TODO (Extra credit)
