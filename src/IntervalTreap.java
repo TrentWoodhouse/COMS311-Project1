@@ -37,13 +37,19 @@ public class IntervalTreap {
 
     public void intervalInsert(Node z) {
 
-        //BST insert downwards
+        //Initialize
         Random rand = new Random();
         z.setPriority(rand.nextInt());
+
+        //Set root node if null
         if (this.root == null) {
             this.root = z;
+            updateIMax(z);
+            System.out.println(this.toString());
             return;
         }
+
+        //BST insert downwards
         Node y = null;
         Node x = this.root;
         while (x != null) {
@@ -62,11 +68,14 @@ public class IntervalTreap {
         else {
             y.setLeft(z);
         }
+        updateIMax(z);
 
         //Rotate upwards
         while (needsRotating(z)) {
             rotateWithParent(z);
         }
+
+        System.out.println(this.toString());
     }
 
     //TODO
@@ -157,16 +166,40 @@ public class IntervalTreap {
             grandparent.setLeft(z);
         }
 
-
         z.setParent(grandparent);
         parent.setParent(z);
         if (subtreeB != null) {
             subtreeB.setParent(parent);
         }
+
+        updateIMax(parent);
     }
 
     private boolean needsRotating(Node z) {
         return z.getParent() != null && z.getPriority() < z.getParent().getPriority();
+    }
+
+    private void updateIMax(Node z) {
+        if (z == null) {
+            return;
+        }
+        if (z.getLeft() == null && z.getRight() == null) {
+            z.setIMax(z.getInterv().getHigh());
+            updateIMax(z.getParent());
+            return;
+        }
+        if (z.getLeft() == null) {
+            z.setIMax(Math.max(z.getInterv().getHigh(), z.getRight().getIMax()));
+            updateIMax(z.getParent());
+            return;
+        }
+        if (z.getRight() == null) {
+            z.setIMax(Math.max(z.getInterv().getHigh(), z.getLeft().getIMax()));
+            updateIMax(z.getParent());
+            return;
+        }
+        z.setIMax(Math.max(z.getInterv().getHigh(), Math.max(z.getLeft().getIMax(), z.getRight().getIMax())));
+        updateIMax(z.getParent());
     }
 
     public String toString() {

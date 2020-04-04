@@ -3,7 +3,7 @@ public class Node {
     private Node left;
     private Node right;
     private Interval interv;
-    private int getIMax;
+    private int imax;
     private int priority;
 
     public Node(Interval i) {
@@ -27,7 +27,7 @@ public class Node {
     }
 
     public int getIMax() {
-        return getIMax;
+        return imax;
     }
 
     public int getPriority() {
@@ -50,8 +50,8 @@ public class Node {
         this.interv = interv;
     }
 
-    public void setGetIMax(int getIMax) {
-        this.getIMax = getIMax;
+    public void setIMax(int imax) {
+        this.imax = imax;
     }
 
     public void setPriority(int priority) {
@@ -59,6 +59,6 @@ public class Node {
     }
 
     public String toString() {
-        return "<Interv: " + this.interv.toString() + ", Priority: " + this.priority + ">";
+        return "<Interv: " + this.interv.toString() + ", Imax: " + this.imax + ", Priority: " + this.priority + ">";
     }
 }

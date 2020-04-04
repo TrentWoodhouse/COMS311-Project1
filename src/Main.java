@@ -9,6 +9,6 @@ public class Main {
         t.intervalInsert(new Node(new Interval(-3, 255)));
         t.intervalInsert(new Node(new Interval(13, 94)));
 
-        System.out.println(t.toString());
+        //System.out.println(t.toString());
     }
 }
