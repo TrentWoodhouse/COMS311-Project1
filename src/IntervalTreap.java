@@ -70,13 +70,41 @@ public class IntervalTreap {
     }
 
     //TODO
-    public void intervalDelete(Node z) {
-        return;
+    public void intervalDelete(Node z){
+        if (z.getLeft() == null) {
+            z = z.getRight();
+        }
+        else if (z.getLeft() != null && z.getRight() == null) {
+            z = z.getLeft();
+        }
+        else {
+            //replace z with its successor, not sure how to find this rn
+            //but the doc says something like y = Minimum(z.right) on p. 4
+        }
+        //TODO after this we have to rotate accordingly
+
     }
 
     //TODO
-    public Node intervalSearch(Interval i) {
-        return null;
+    public Node intervalSearch(Interval i){
+        Node x = root;
+        while (x != null && !Overlaps(x, i)) {
+            if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
+                x = x.getLeft();
+            }
+            else {
+                x = x.getRight();
+            }
+        }
+        return x;
+
+    }
+
+    private boolean Overlaps(Node x, Interval i) {
+        if (i.getLow() <= x.getInterv().getHigh() && x.getInterv().getLow() <= i.getHigh()) {
+            return true;
+        }
+        return false;
     }
 
     //TODO (Extra credit)
