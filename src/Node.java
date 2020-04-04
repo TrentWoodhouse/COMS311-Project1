@@ -57,4 +57,8 @@ public class Node {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    public String toString() {
+        return "<Interv: " + this.interv.toString() + ", Priority: " + this.priority + ">";
+    }
 }

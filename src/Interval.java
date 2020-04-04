@@ -22,4 +22,8 @@ public class Interval {
     public void setHigh(int high) {
         this.high = high;
     }
+
+    public String toString() {
+        return "[" + this.low + ", " + this.high + "]";
+    }
 }
