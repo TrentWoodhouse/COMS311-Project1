@@ -8,7 +8,11 @@ public class Main {
         t.intervalInsert(new Node(new Interval(77, 666)));
         t.intervalInsert(new Node(new Interval(-3, 255)));
         t.intervalInsert(new Node(new Interval(13, 94)));
+        t.intervalInsert(new Node(new Interval(73, 237)));
+        t.intervalInsert(new Node(new Interval(1, 33)));
+        t.intervalInsert(new Node(new Interval(278, 555)));
+        t.intervalInsert(new Node(new Interval(452, 1000)));
 
-        //System.out.println(t.toString());
+        System.out.println(t.toString());
     }
 }

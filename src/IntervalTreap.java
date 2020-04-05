@@ -4,11 +4,9 @@ import java.util.Random;
 public class IntervalTreap {
     private Node root;
     private int size;
-    private int height;
 
     public IntervalTreap() {
         this.size = 0;
-        this.height = 0;
     }
 
     public Node getRoot() {
@@ -20,7 +18,12 @@ public class IntervalTreap {
     }
 
     public int getHeight() {
-        return height;
+        if (this.root == null) {
+            return -1;
+        }
+        else {
+            return this.root.getHeight();
+        }
     }
 
     public void setRoot(Node root) {
@@ -31,20 +34,18 @@ public class IntervalTreap {
         this.size = size;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public void intervalInsert(Node z) {
 
         //Initialize
         Random rand = new Random();
         z.setPriority(rand.nextInt());
+        z.setHeight(0);
+        this.size++;
 
         //Set root node if null
         if (this.root == null) {
             this.root = z;
-            updateIMax(z);
+            updateIMaxAndHeight(z);
             System.out.println(this.toString());
             return;
         }
@@ -68,7 +69,7 @@ public class IntervalTreap {
         else {
             y.setLeft(z);
         }
-        updateIMax(z);
+        updateIMaxAndHeight(z);
 
         //Rotate upwards
         while (needsRotating(z)) {
@@ -172,37 +173,43 @@ public class IntervalTreap {
             subtreeB.setParent(parent);
         }
 
-        updateIMax(parent);
+        updateIMaxAndHeight(parent);
     }
 
     private boolean needsRotating(Node z) {
         return z.getParent() != null && z.getPriority() < z.getParent().getPriority();
     }
 
-    private void updateIMax(Node z) {
+    private void updateIMaxAndHeight(Node z) {
         if (z == null) {
             return;
         }
         if (z.getLeft() == null && z.getRight() == null) {
             z.setIMax(z.getInterv().getHigh());
-            updateIMax(z.getParent());
+            z.setHeight(0);
+            updateIMaxAndHeight(z.getParent());
             return;
         }
         if (z.getLeft() == null) {
             z.setIMax(Math.max(z.getInterv().getHigh(), z.getRight().getIMax()));
-            updateIMax(z.getParent());
+            z.setHeight(z.getRight().getHeight() + 1);
+            updateIMaxAndHeight(z.getParent());
             return;
         }
         if (z.getRight() == null) {
             z.setIMax(Math.max(z.getInterv().getHigh(), z.getLeft().getIMax()));
-            updateIMax(z.getParent());
+            z.setHeight(z.getLeft().getHeight() + 1);
+            updateIMaxAndHeight(z.getParent());
             return;
         }
         z.setIMax(Math.max(z.getInterv().getHigh(), Math.max(z.getLeft().getIMax(), z.getRight().getIMax())));
-        updateIMax(z.getParent());
+        z.setHeight(Math.max(z.getRight().getHeight(), z.getLeft().getHeight()) + 1);
+        updateIMaxAndHeight(z.getParent());
     }
 
     public String toString() {
+        System.out.println("Size: " + this.size);
+        System.out.println("Height: " + getHeight());
         return toStringRec(this.root, 0);
     }
 

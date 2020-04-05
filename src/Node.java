@@ -3,6 +3,7 @@ public class Node {
     private Node left;
     private Node right;
     private Interval interv;
+    private int height;
     private int imax;
     private int priority;
 
@@ -24,6 +25,10 @@ public class Node {
 
     public Interval getInterv() {
         return interv;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public int getIMax() {
@@ -48,6 +53,10 @@ public class Node {
 
     public void setInterv(Interval interv) {
         this.interv = interv;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public void setIMax(int imax) {
