@@ -116,9 +116,25 @@ public class IntervalTreap {
         return false;
     }
 
+    private boolean OverlapsExactly(Node x, Interval i) {
+        if (i.getLow() == x.getInterv().getHigh() && x.getInterv().getLow() == i.getHigh()) {
+            return true;
+        }
+        return false;
+    }
+
     //TODO (Extra credit)
     public Node intervalSearchExactly(Interval i) {
-        return null;
+        Node x = root;
+        while (x != null && !OverlapsExactly(x, i)) {
+            if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
+                x = x.getLeft();
+            }
+            else {
+                x = x.getRight();
+            }
+        }
+        return x;
     }
 
     //TODO (Extra credit)
