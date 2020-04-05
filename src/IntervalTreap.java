@@ -6,7 +6,7 @@ public class IntervalTreap {
     private int size;
 
     public IntervalTreap() {
-        this.size = 0;
+        size = 0;
     }
 
     public Node getRoot() {
@@ -18,11 +18,11 @@ public class IntervalTreap {
     }
 
     public int getHeight() {
-        if (this.root == null) {
+        if (root == null) {
             return -1;
         }
         else {
-            return this.root.getHeight();
+            return root.getHeight();
         }
     }
 
@@ -40,19 +40,19 @@ public class IntervalTreap {
         Random rand = new Random();
         z.setPriority(rand.nextInt());
         z.setHeight(0);
-        this.size++;
+        size++;
 
         //Set root node if null
-        if (this.root == null) {
-            this.root = z;
+        if (root == null) {
+            root = z;
             updateIMaxAndHeight(z);
-            System.out.println(this.toString());
+            System.out.println(toString());
             return;
         }
 
         //BST insert downwards
         Node y = null;
-        Node x = this.root;
+        Node x = root;
         while (x != null) {
             y = x;
             if (z.getInterv().getLow() >= y.getInterv().getLow()) {
@@ -76,7 +76,7 @@ public class IntervalTreap {
             rotateWithParent(z);
         }
 
-        System.out.println(this.toString());
+        System.out.println(toString());
     }
 
     //TODO
@@ -98,7 +98,7 @@ public class IntervalTreap {
     //TODO
     public Node intervalSearch(Interval i){
         Node x = root;
-        while (x != null && !Overlaps(x, i)) {
+        while (x != null && !overlaps(x.getInterv(), i)) {
             if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
                 x = x.getLeft();
             }
@@ -110,8 +110,8 @@ public class IntervalTreap {
 
     }
 
-    private boolean Overlaps(Node x, Interval i) {
-        if (i.getLow() <= x.getInterv().getHigh() && x.getInterv().getLow() <= i.getHigh()) {
+    private boolean overlaps(Interval a, Interval b) {
+        if (a.getLow() <= b.getHigh() && b.getLow() <= a.getHigh()) {
             return true;
         }
         return false;
@@ -158,7 +158,7 @@ public class IntervalTreap {
         }
 
         if (grandparent == null) {
-            this.root = z;
+            root = z;
         }
         else if (grandparent.getRight() == parent) {
             grandparent.setRight(z);
@@ -208,9 +208,7 @@ public class IntervalTreap {
     }
 
     public String toString() {
-        System.out.println("Size: " + this.size);
-        System.out.println("Height: " + getHeight());
-        return toStringRec(this.root, 0);
+        return "Size: " + getSize() + "\nHeight: " + getHeight() + "\n" + toStringRec(root, 0);
     }
 
     private String toStringRec(Node n, int level) {
