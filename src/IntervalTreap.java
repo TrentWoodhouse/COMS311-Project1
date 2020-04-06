@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -213,9 +214,22 @@ public class IntervalTreap {
         return false;
     }
 
-    //TODO (Extra credit)
     public List<Interval> overlappingIntervals(Interval i) {
-        return null;
+        return overlappingIntervalsRec(root, i);
+    }
+
+    private List<Interval> overlappingIntervalsRec(Node n, Interval i) {
+        List<Interval> ret = new ArrayList<>();
+        if (overlaps(n.getInterv(), i)) {
+            ret.add(n.getInterv());
+        }
+        if (n.getLeft() != null) {
+            ret.addAll(overlappingIntervalsRec(n.getLeft(), i));
+        }
+        if (n.getRight() != null) {
+            ret.addAll(overlappingIntervalsRec(n.getRight(), i));
+        }
+        return ret;
     }
 
     private Node minimum(Node z) {

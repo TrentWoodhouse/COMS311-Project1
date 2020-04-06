@@ -19,15 +19,8 @@ public class Main {
         t.intervalInsert(new Node(new Interval(1, 33)));
         t.intervalInsert(new Node(new Interval(278, 555)));
         t.intervalInsert(new Node(new Interval(452, 1000)));
-
-
-
         System.out.println(t.toString());
 
-        t.intervalDelete(n);
-
-//        t.checkForSelfReference();
-
-        System.out.println(t.toString());
+        System.out.println(t.overlappingIntervals(new Interval(-10, 10)).toString());
     }
 }
