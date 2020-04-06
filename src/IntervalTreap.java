@@ -46,7 +46,6 @@ public class IntervalTreap {
         if (root == null) {
             root = z;
             updateIMaxAndHeight(z);
-            System.out.println(toString());
             return;
         }
 
@@ -72,27 +71,105 @@ public class IntervalTreap {
         updateIMaxAndHeight(z);
 
         //Rotate upwards
-        while (needsRotating(z)) {
+        while (needsRotatingUp(z)) {
             rotateWithParent(z);
         }
-
-        System.out.println(toString());
     }
 
-    //TODO
     public void intervalDelete(Node z){
-        if (z.getLeft() == null) {
-            z = z.getRight();
+        size--;
+        Node parent = z.getParent();
+        Node right = z.getRight();
+        Node left = z.getLeft();
+        if (left == null) { //Replace z with right child
+            if (parent == null) {
+                root = right;
+            }
+            else {
+                if (parent.getRight() == z) {
+                    parent.setRight(right);
+                }
+                else {
+                    parent.setLeft(right);
+                }
+            }
+            if (right != null) {
+                right.setParent(parent);
+            }
         }
-        else if (z.getLeft() != null && z.getRight() == null) {
-            z = z.getLeft();
-        }
-        else {
-            //replace z with its successor, not sure how to find this rn
-            //but the doc says something like y = Minimum(z.right) on p. 4
-        }
-        //TODO after this we have to rotate accordingly
+        else if (right == null) { //replace z with left child
+            if (parent == null) {
+                root = left;
+            }
+            else {
+                if (parent.getRight() == z) {
+                    parent.setRight(left);
+                }
+                else {
+                    parent.setLeft(left);
+                }
+            }
+            left.setParent(parent);
 
+        }
+        else { //swap z with successor and remove z
+            Node y = minimum(right);
+
+            //Stitch nodes around y together
+            if (y.getParent() != z) {
+                //Assume y is left child because of minimum
+                y.getParent().setLeft(y.getRight());
+                if (y.getRight() != null) {
+                    y.getRight().setParent(y.getParent());
+                    updateIMaxAndHeight(y.getRight());
+                }
+                else {
+                    updateIMaxAndHeight(y.getParent());
+                }
+            }
+
+            //Inject y into where z was
+            if (parent == null) {
+                root = y;
+            }
+            else {
+                if (parent.getRight() == z) {
+                    parent.setRight(y);
+                }
+                else {
+                    parent.setLeft(y);
+                }
+            }
+            y.setParent(parent);
+
+            //Check if minimum is not right child of z
+            if (y != right) {
+                y.setRight(right);
+                right.setParent(y);
+            }
+            y.setLeft(left);
+            left.setParent(y);
+
+            updateIMaxAndHeight(y);
+
+            //Rotate y downwards to keep priority rule
+            while (needsRotatingDown(y)) {
+                if (y.getLeft() == null) {
+                    rotateWithParent(y.getRight());
+                }
+                else if (y.getRight() == null) {
+                    rotateWithParent(y.getLeft());
+                }
+                else {
+                    if (y.getLeft().getPriority() < y.getRight().getPriority()) {
+                        rotateWithParent(y.getLeft());
+                    }
+                    else {
+                        rotateWithParent(y.getRight());
+                    }
+                }
+            }
+        }
     }
 
     //TODO
@@ -107,14 +184,10 @@ public class IntervalTreap {
             }
         }
         return x;
-
     }
 
     private boolean overlaps(Interval a, Interval b) {
-        if (a.getLow() <= b.getHigh() && b.getLow() <= a.getHigh()) {
-            return true;
-        }
-        return false;
+        return a.getLow() <= b.getHigh() && b.getLow() <= a.getHigh();
     }
 
     //TODO (Extra credit)
@@ -125,6 +198,16 @@ public class IntervalTreap {
     //TODO (Extra credit)
     public List<Interval> overlappingIntervals(Interval i) {
         return null;
+    }
+
+    private Node minimum(Node z) {
+        Node y = null;
+        while (z != null) {
+            y = z;
+            z = z.getLeft();
+        }
+
+        return y;
     }
 
     private void rotateWithParent(Node z) {
@@ -176,8 +259,13 @@ public class IntervalTreap {
         updateIMaxAndHeight(parent);
     }
 
-    private boolean needsRotating(Node z) {
+    private boolean needsRotatingUp(Node z) {
         return z.getParent() != null && z.getPriority() < z.getParent().getPriority();
+    }
+
+    private boolean needsRotatingDown(Node z) {
+        return (z.getRight() != null && z.getPriority() > z.getRight().getPriority())
+                || (z.getLeft() != null && z.getPriority() > z.getLeft().getPriority());
     }
 
     private void updateIMaxAndHeight(Node z) {
@@ -205,6 +293,30 @@ public class IntervalTreap {
         z.setIMax(Math.max(z.getInterv().getHigh(), Math.max(z.getLeft().getIMax(), z.getRight().getIMax())));
         z.setHeight(Math.max(z.getRight().getHeight(), z.getLeft().getHeight()) + 1);
         updateIMaxAndHeight(z.getParent());
+    }
+
+    public void checkForSelfReference() {
+        Node ret = checkForSelfReferenceRec(root);
+        if (ret != null) {
+            System.out.println("Self reference at: " + ret.toString());
+        }
+        else {
+            System.out.println("No self references detected");
+        }
+    }
+
+    private Node checkForSelfReferenceRec(Node n) {
+        if (n == null) {
+            return null;
+        }
+        if (n.getLeft() == n || n.getRight() == n || n.getParent() == n) {
+            return n;
+        }
+        Node ret = checkForSelfReferenceRec(n.getRight());
+        if (ret != null) {
+            return ret;
+        }
+        return checkForSelfReferenceRec(n.getLeft());
     }
 
     public String toString() {
