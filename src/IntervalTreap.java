@@ -190,9 +190,26 @@ public class IntervalTreap {
         return a.getLow() <= b.getHigh() && b.getLow() <= a.getHigh();
     }
 
-    //TODO (Extra credit)
-    public Node intervalSearchExactly(Interval i) {
-        return null;
+    //TODO
+    public Node intervalSearchExactly(Interval i){
+        Node x = root;
+        while (x != null && !OverlapsExactly(x.getInterv(), i)) {
+            if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
+                x = x.getLeft();
+            }
+            else {
+                x = x.getRight();
+            }
+        }
+        return x;
+
+    }
+
+    private boolean OverlapsExactly(Interval a, Interval b) {
+        if (a.getLow() == b.getHigh() && b.getLow() == a.getHigh()) {
+            return true;
+        }
+        return false;
     }
 
     //TODO (Extra credit)
