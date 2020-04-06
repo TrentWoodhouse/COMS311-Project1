@@ -1,3 +1,7 @@
+/**
+ * @author Trent Woodhouse
+ * @author Vismay Gehlot
+ */
 public class Main {
 
     public static void main(String[] args) {

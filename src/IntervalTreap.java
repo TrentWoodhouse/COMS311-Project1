@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author Trent Woodhouse
+ * @author Vismay Gehlot
+ */
 public class IntervalTreap {
     private Node root;
     private int size;
@@ -172,7 +176,6 @@ public class IntervalTreap {
         }
     }
 
-    //TODO
     public Node intervalSearch(Interval i){
         Node x = root;
         while (x != null && !overlaps(x.getInterv(), i)) {
@@ -190,7 +193,6 @@ public class IntervalTreap {
         return a.getLow() <= b.getHigh() && b.getLow() <= a.getHigh();
     }
 
-    //TODO
     public Node intervalSearchExactly(Interval i){
         Node x = root;
         while (x != null && !OverlapsExactly(x.getInterv(), i)) {
@@ -202,11 +204,10 @@ public class IntervalTreap {
             }
         }
         return x;
-
     }
 
     private boolean OverlapsExactly(Interval a, Interval b) {
-        if (a.getLow() == b.getHigh() && b.getLow() == a.getHigh()) {
+        if (a.getLow() == b.getLow() && b.getHigh() == a.getHigh()) {
             return true;
         }
         return false;

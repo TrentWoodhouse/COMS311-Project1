@@ -1,3 +1,7 @@
+/**
+ * @author Trent Woodhouse
+ * @author Vismay Gehlot
+ */
 public class Node {
     private Node parent;
     private Node left;

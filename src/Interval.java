@@ -1,3 +1,7 @@
+/**
+ * @author Trent Woodhouse
+ * @author Vismay Gehlot
+ */
 public class Interval {
     private int low;
     private int high;
